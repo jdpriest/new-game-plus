@@ -90,3 +90,5 @@ Noxious halberd
 Abyssal bludgeon
 Heavy ballista
 Light ballista
+Boots of brimstone
+Abyssal tentacle

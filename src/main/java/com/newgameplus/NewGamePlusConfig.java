@@ -15,7 +15,7 @@ public interface NewGamePlusConfig extends Config {
     )
     @Range(min = 0, max = 255)
     default int inventoryOpacity() {
-        return 102; // ~40%
+        return 165; // ~50%
     }
 
     @ConfigItem(
@@ -25,7 +25,7 @@ public interface NewGamePlusConfig extends Config {
     )
     @Range(min = 0, max = 255)
     default int bankOpacity() {
-        return 102; // ~40%
+        return 165; // ~50%
     }
 
 

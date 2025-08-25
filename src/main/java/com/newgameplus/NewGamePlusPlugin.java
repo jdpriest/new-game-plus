@@ -48,7 +48,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
-import net.runelite.client.game.chatbox.ChatboxPanelManager;
 import net.runelite.client.game.chatbox.ChatboxItemSearch;
 import net.runelite.client.events.ServerNpcLoot;
 import net.runelite.client.plugins.loottracker.LootReceived;
@@ -97,9 +96,6 @@ public class NewGamePlusPlugin extends Plugin {
     private ItemManager itemManager;
 
     @Inject
-    private ChatboxPanelManager chatboxPanelManager;
-
-    @Inject
     private ChatboxItemSearch chatboxItemSearch;
 
     private NavigationButton navButton;
@@ -116,9 +112,6 @@ public class NewGamePlusPlugin extends Plugin {
 
     // Guard to avoid treating the initial inventory load as "picked up"
     private boolean inventorySnapshotInitialized = false;
-
-    // Normalized names for unlocked items (lowercased, tags removed)
-    private final Set<String> unlockedItemNames = new HashSet<>();
 
     // Compiled patterns representing unlocked name families (variants)
     private final List<Pattern> unlockedNamePatterns = new ArrayList<>();
@@ -582,13 +575,11 @@ public class NewGamePlusPlugin extends Plugin {
     }
 
     private void rebuildUnlockedNamesUnsafe() {
-        unlockedItemNames.clear();
         unlockedNamePatterns.clear();
         for (int id : unlockedItemIds) {
             try {
                 String nm = itemManager.getItemComposition(id).getName();
                 String norm = normalizeName(nm);
-                unlockedItemNames.add(norm);
 
                 boolean mapped = false;
                 // If this unlocked name falls under any default-locked family, unlock that family
@@ -634,10 +625,10 @@ public class NewGamePlusPlugin extends Plugin {
         if (audioExecutor == null || !config.playUnlockSound()) {
             return;
         }
-        final Path soundPath = net.runelite.client.RuneLite.RUNELITE_DIR.toPath()
+        final Path soundPath = RuneLite.RUNELITE_DIR.toPath()
                 .resolve("new-game-plus")
                 .resolve("new-game-plus-unlock.wav");
-        if (!java.nio.file.Files.exists(soundPath)) {
+        if (!Files.exists(soundPath)) {
             return;
         }
 
