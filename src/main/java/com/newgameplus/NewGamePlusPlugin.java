@@ -52,12 +52,7 @@ import net.runelite.client.game.chatbox.ChatboxItemSearch;
 import net.runelite.client.events.ServerNpcLoot;
 import net.runelite.client.plugins.loottracker.LootReceived;
 import net.runelite.http.api.loottracker.LootRecordType;
-
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.FloatControl;
-import javax.sound.sampled.LineEvent;
+ import net.runelite.client.audio.AudioPlayer;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -634,34 +629,11 @@ public class NewGamePlusPlugin extends Plugin {
 
         audioExecutor.submit(() ->
         {
-            try (AudioInputStream ais = AudioSystem.getAudioInputStream(soundPath.toFile())) {
-                Clip clip = AudioSystem.getClip();
-                clip.open(ais);
-
-                // Set volume if supported
-                try {
-                    int vol = Math.max(0, Math.min(100, config.unlockSoundVolume()));
-                    FloatControl gain = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-                    float min = gain.getMinimum();
-                    float max = gain.getMaximum();
-                    float norm = vol / 100.0f;
-                    // Map 0..1 to dB range from min to 0 dB to avoid clipping
-                    float target = min + norm * (0f - min);
-                    target = Math.max(min, Math.min(target, max));
-                    gain.setValue(target);
-                } catch (IllegalArgumentException ignored) {
-                }
-
-                clip.addLineListener(event ->
-                {
-                    if (event.getType() == LineEvent.Type.STOP || event.getType() == LineEvent.Type.CLOSE) {
-                        try {
-                            clip.close();
-                        } catch (Exception ignored) {
-                        }
-                    }
-                });
-                clip.start();
+            try {
+                int vol = Math.max(0, Math.min(100, config.unlockSoundVolume()));
+                // Map 0..100 volume to a reasonable dB range (-80dB = silent, 0dB = no boost)
+                float gainDb = -80.0f + (vol / 100.0f) * 80.0f;
+                new AudioPlayer().play(soundPath.toFile(), gainDb);
             } catch (Throwable t) {
                 log.debug("NG+: unlock sound failed: {}", t.getMessage());
             }
