@@ -1,0 +1,304 @@
+# Boss unique drops (as of 2025-08-24)
+Bludgeon spine
+Bludgeon claw
+Bludgeon axon
+Abyssal dagger
+Abyssal whip
+Hydra's claw
+Hydra's tail
+Hydra leather
+Hydra's fang
+Hydra's eye
+Hydra's heart
+Brimstone ring
+Dragon knife
+Dragon thrownaxe
+Glacial temotli
+Araxyte venom sack
+Spider cave teleport
+Araxyte fang
+Noxious point
+Noxious blade
+Noxious pommel
+Karil's coif
+Ahrim's hood
+Dharok's helm
+Guthan's helm
+Torag's helm
+Verac's helm
+Karil's leathertop
+Ahrim's robetop
+Dharok's platebody
+Guthan's platebody
+Torag's platebody
+Verac's brassard
+Karil's leatherskirt
+Ahrim's robeskirt
+Dharok's platelegs
+Guthan's chainskirt
+Torag's platelegs
+Verac's plateskirt
+Karil's crossbow
+Ahrim's staff
+Dharok's greataxe
+Guthan's warspear
+Torag's hammers
+Verac's flail
+Bolt rack
+Bryophyta's essence
+Bryophyta's staff
+Tyrannical ring
+Dragon pickaxe
+Dragon 2h sword
+Claws of callisto
+Voidwaker hilt
+Eternal crystal
+Eternal boots
+Pegasian crystal
+Pegasian boots
+Primordial crystal
+Primordial boots
+Smouldering stone
+Key master teleport
+Odium shard 1
+Malediction shard 1
+Armadyl crossbow
+Saradomin hilt
+Saradomin sword
+Saradomin's light
+Godsword shard 1
+Godsword shard 2
+Godsword shard 3
+Elysian sigil
+Elysian spirit shield
+Spectral sigil
+Spectral spirit shield
+Arcane sigil
+Arcane spirit shield
+Holy elixir
+Spirit shield
+Blessed spirit shield
+Odium shard 2
+Malediction shard 2
+Fedora
+Berserker ring
+Archers ring
+Seers ring
+Warrior ring
+Dragon axe
+Seercull
+Mud battlestaff
+Steel ring
+Eye of the duke
+Virtus mask
+Virtus robe top
+Virtus robe bottom
+Magus vestige
+Awakener's orb
+Fire cape
+Dizana's quiver
+Sunfire fanatic cuirass
+Sunfire fanatic chausses
+Sunfire fanatic helm
+Echo crystal
+Tonalztics of ralos
+Sunfire splinters
+Crystal armour seed
+Crystal weapon seed
+Enhanced crystal weapon seed
+Gauntlet cape
+Bandos chestplate
+Bandos tassets
+Bandos boots
+Bandos hilt
+Mole skin
+Mole claw
+Black tourmaline core
+Granite gloves
+Granite ring
+Granite hammer
+Granite dust
+Bottomless compost bucket
+Iasor seed
+Kronos seed
+Attas seed
+Dragon hunter wand
+Tome of earth
+Soiled page
+Hueycoatl hide
+Huasca seed
+Infernal cape
+Dragon chainbody
+Draconic visage
+Kraken tentacle
+Trident of the seas
+Armadyl helmet
+Armadyl chestplate
+Armadyl chainskirt
+Armadyl hilt
+Staff of the dead
+Zamorakian spear
+Steam battlestaff
+Zamorak hilt
+Leviathan's lure
+Venator vestige
+Smoke quartz
+Scarred tablet
+Eclipse moon chestplate
+Eclipse moon tassets
+Eclipse moon helm
+Eclipse atlatl
+Blue moon chestplate
+Blue moon tassets
+Blue moon helm
+Blue moon spear
+Blood moon chestplate
+Blood moon tassets
+Blood moon helm
+Dual macuahuitl
+Atlatl dart
+Ancient hilt
+Nihil horn
+Zaryte vambraces
+Torva full helm
+Torva platebody
+Torva platelegs
+Nihil shard
+Inquisitor's mace
+Inquisitor's great helm
+Inquisitor's hauberk
+Inquisitor's plateskirt
+Nightmare staff
+Volatile orb
+Harmonized orb
+Eldritch orb
+Hill giant club
+Venator shard
+Ancient icon
+Charged ice
+Frozen cache
+Ancient essence
+Deadeye prayer scroll
+Mystic vigour prayer scroll
+Giantsoul amulet
+Ice element staff crown
+Fire element staff crown
+Desiccated page
+Giant egg sac (full)
+Sarachnis cudgel
+Odium shard 3
+Malediction shard 3
+Odium ward
+Malediction ward
+Scrrius' spine
+Bone mace
+Bone shortbow
+Bone staff
+Jar of darkness
+Dark claw
+Dark totem
+Uncut onyx
+Ancient shard
+Big harpoonfish
+Spirit angler headband
+Spirit angler top
+Spirit angler waders
+Spirit angler boots
+Tome of water
+Soaked page
+Tackle box
+Fish barrel
+Dragon harpoon
+Spirit flakes
+Occult necklace
+Smoke battlestaff
+Jar of smoke
+Executioner's axe head
+Ultor vestige
+Blood quartz
+Strangled tablet
+Venenatis spiderling
+Treasonous ring
+Fangs of venenatis
+Voidwaker gem
+Ring of the gods
+Skull of vet'ion
+Voidwaker blade
+Vorkath's head
+Skeletal visage
+Jar of decay
+Dragonbone necklace
+Siren's staff
+Bellator vestige
+Shadow quartz
+Sirenic tablet
+Tome of fire
+Burnt page
+Pyromancer garb
+Pyromancer hood
+Pyromancer robe
+Pyromancer boots
+Warm gloves
+Bruma torch
+Chasm teleport scroll
+Oathplate helm
+Oathplate chest
+Oathplate legs
+Soulflame horn
+Oathplate shards
+Rite of vile transference
+Forgotten lockbox
+Dossier
+Barrel of demonic tallow (full)
+Crystal tool seed
+Zalcano shard
+Magic fang
+Serpentine visage
+Tanzanite fang
+Zul-andra teleport
+Zulrah's scales
+Bow of faerdhinen
+Blade of Saeldor
+Toxic Blowpipe
+Blazing Blowpipe
+Crystal helm
+Crystal body
+Crystal legs
+Ferocious gloves
+Confliction gauntlets
+Dizana's max cape
+Ultor ring
+Venator ring
+Magus ring
+Bellator ring
+Serpentine helmet
+Magma helm
+Tanzanite helm
+Neitiznot faceguard
+Bandos godsword
+Saradomin godsword
+Zamorak godsword
+Armadyl godsword
+Ancient godsword
+Zaryte crossbow
+Voidwaker
+Venator bow
+Eye of Ayak
+Avernic treads
+Twinflame staff
+Smoke ancient sceptre
+Shadow ancient sceptre
+Blood ancient sceptre
+Ice ancient sceptre
+Soulreaper axe
+Infernal axe
+Infernal pickaxe
+Infernal harpoon
+Crystal axe
+Crystal pickaxe
+Crystal harpoon
+Trident of the swamp
+Guardian boots
+Echo boots
+Zamorakian hasta
+Bones
