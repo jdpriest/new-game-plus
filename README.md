@@ -11,7 +11,8 @@ allow you to re-do the PvM progression of the game, without having to train skil
     - Disallowed: `Wear`, `Wield`, `Use`, `Check`, `Revert`, and all `Withdraw*` variants.
     - Allowed: `Examine`, `Cancel`, `Deposit`, `Take`, view/select, etc.
 - **Locked item visual dimming**: Locked items are tinted in the inventory and bank with configurable opacity.
-- **Unlock functionality**: Receiving or crafting an item will unlock it, allowing interactions and adding it to the list of unlocks.
+- **Unlock functionality**: Receiving or crafting an item will unlock it, allowing interactions and adding it to the
+  list of unlocks.
 - **Automatic unlocks** on:
     - NPC drops.
     - Chest/raid rewards.
@@ -25,7 +26,8 @@ allow you to re-do the PvM progression of the game, without having to train skil
 ## How it works
 
 - The plugin determines whether an item is locked by ID and by name family.
-    - "Name family" supports item variants, such as cosmetic kits (Oathplate helm -> Radiant oathplate helm) or imbues (Berserker ring -> Berserker ring (i))
+    - "Name family" supports item variants, such as cosmetic kits (Oathplate helm -> Radiant oathplate helm) or imbues (
+      Berserker ring -> Berserker ring (i))
 - Server NPC loot and chest/raid rewards also unlock items immediately.
 - The plugin does not delete or move items; it visually dims and blocks certain interactions while locked.
 
@@ -66,5 +68,16 @@ If the file exists and sound is enabled, it will play on unlock.
 - **Remove Selected**: Remove highlighted entries from unlocks.
 - **Delete All Unlocks**: Clear all unlocks (confirmation required).
 
-### Credits
-Inspired by Gudi's plugin for Drum's "Pet Peeved" series. Special thank you to Gray Nine for providing resources to pre-compiled lists of boss, raid, and slayer unlocks.
+## Credits
+
+The idea for locking items was inspired by Gudi's plugin for Drum's "Pet Peeved" series. Special thank you to Gray Nine
+for providing resources to pre-compiled lists of boss, raid, and slayer unlocks.
+
+## Future updates
+
+Currently, the list of items to lock is hardcoded and uses a wildcard search to find variant items. At some point, I
+would like to map the item variant recieved by a boss to all variants of the item. For example, the "Fire cape" that
+you get from fight caves would unlock locked fire cape, broken fire capes, and the fire max cape variants of all three.
+
+With a complete list of all item IDs possibly received as a drop and associated item variants that they should unlock, I
+could then fine tune the search option to only contain the base variants of items that are locked.

@@ -52,9 +52,14 @@ import net.runelite.client.game.chatbox.ChatboxItemSearch;
 import net.runelite.client.events.ServerNpcLoot;
 import net.runelite.client.plugins.loottracker.LootReceived;
 import net.runelite.http.api.loottracker.LootRecordType;
- import net.runelite.client.audio.AudioPlayer;
+import net.runelite.client.audio.AudioPlayer;
+import net.runelite.client.ui.DrawManager;
+import net.runelite.client.util.ImageCapture;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import net.runelite.client.RuneLite;
 
@@ -93,11 +98,20 @@ public class NewGamePlusPlugin extends Plugin {
     @Inject
     private ChatboxItemSearch chatboxItemSearch;
 
+    @Inject
+    private DrawManager drawManager;
+
+    @Inject
+    private ImageCapture imageCapture;
+
     private NavigationButton navButton;
     private NewGamePlusPanel panel;
 
     // Background executor for playing custom unlock sounds
     private ExecutorService audioExecutor;
+
+    // Background executor for saving screenshots (scheduled to allow delayed capture)
+    private ScheduledExecutorService screenshotExecutor;
 
     // In-memory set of unlocked item IDs. Initially empty -> everything is locked.
     private final Set<Integer> unlockedItemIds = new HashSet<>();
@@ -146,6 +160,13 @@ public class NewGamePlusPlugin extends Plugin {
         } catch (IOException ignored) {
         }
 
+        // Prepare screenshot executor (scheduled) for delayed capture
+        screenshotExecutor = Executors.newSingleThreadScheduledExecutor(r -> {
+            Thread t = new Thread(r, "ngp-screenshot");
+            t.setDaemon(true);
+            return t;
+        });
+
         // Create and add sidebar panel
         panel = new NewGamePlusPanel(this, itemManager, client);
         BufferedImage icon = null;
@@ -191,6 +212,10 @@ public class NewGamePlusPlugin extends Plugin {
             audioExecutor.shutdownNow();
             audioExecutor = null;
         }
+        if (screenshotExecutor != null) {
+            screenshotExecutor.shutdownNow();
+            screenshotExecutor = null;
+        }
         if (navButton != null) {
             clientToolbar.removeNavigation(navButton);
             navButton = null;
@@ -219,12 +244,13 @@ public class NewGamePlusPlugin extends Plugin {
             // Only auto-unlock if the item is currently locked
             if (isLocked(id) && unlockedItemIds.add(id)) {
                 changed = true;
-                // Chat confirmation per item, matching the ground "Take" flow
+                // If the item was locked, unlock it and notify the user with selected configuration notifications
                 try {
                     String name = itemManager.getItemComposition(id).getName();
                     postGameMessage(ColorUtil.prependColorTag("NG+: Unlocked " + name + "!", new Color(197, 27, 138)));
                     showUnlockPopup(id);
                     playUnlockSound();
+                    takeUnlockScreenshot(name);
                 } catch (Exception ignored) {
                 }
             }
@@ -270,6 +296,7 @@ public class NewGamePlusPlugin extends Plugin {
                     postGameMessage(ColorUtil.prependColorTag("NG+: Unlocked " + name + "!", new Color(197, 27, 138)));
                     showUnlockPopup(id);
                     playUnlockSound();
+                    takeUnlockScreenshot(name);
                 } catch (Exception ignored) {
                 }
             }
@@ -318,7 +345,7 @@ public class NewGamePlusPlugin extends Plugin {
         boolean mutated = false;
         for (MenuEntry entry : entries) {
             if (!allowMenuEntry(entry)) {
-                // Fade out and avoid being left-click priority
+                // Fade out disallowed entries on locked items
                 entry.setDeprioritized(true);
                 String option = entry.getOption();
                 if (option != null && !isColored(option)) {
@@ -436,6 +463,7 @@ public class NewGamePlusPlugin extends Plugin {
                         postGameMessage(ColorUtil.prependColorTag("NG+: Unlocked " + name + "!", new Color(197, 27, 138)));
                         showUnlockPopup(id);
                         playUnlockSound();
+                        takeUnlockScreenshot(name);
                     } catch (Exception ignored) {
                     }
                     saveUnlockedToConfig();
@@ -508,7 +536,7 @@ public class NewGamePlusPlugin extends Plugin {
             return false;
         }
 
-        // Everything else is allowed (eg. take, examine, cancel, view/select, deposit, etc.)
+        // Everything else is allowed (e.g. take, examine, cancel, view/select, deposit, etc.)
         return true;
     }
 
@@ -538,7 +566,7 @@ public class NewGamePlusPlugin extends Plugin {
             }
         }
 
-        // Apply default locks if enabled (name families via wildcard patterns)
+        // Apply default locks (name families via wildcard patterns)
         for (Pattern p : defaultLockedPatterns) {
             if (p.matcher(normName).matches()) {
                 return true;
@@ -638,6 +666,46 @@ public class NewGamePlusPlugin extends Plugin {
                 log.debug("NG+: unlock sound failed: {}", t.getMessage());
             }
         });
+    }
+
+    private void takeUnlockScreenshot(String itemName) {
+        if (!config.screenshotOnUnlock()) {
+            return;
+        }
+        if (client.getGameState() == GameState.LOGIN_SCREEN) {
+            return;
+        }
+
+        final String base = "Unlock (" + (itemName == null ? "item" : itemName) + ")";
+        final String fileName = sanitizeFilename(base);
+
+        // Delay to allow the notification/popup to render before capture
+        if (screenshotExecutor != null) {
+            screenshotExecutor.schedule(() -> {
+                // Capture next frame and save asynchronously
+                drawManager.requestNextFrameListener(image -> {
+                    if (screenshotExecutor == null) {
+                        return;
+                    }
+                    screenshotExecutor.submit(() -> {
+                        try {
+                            BufferedImage bi = ImageUtil.bufferedImageFromImage(image);
+                            imageCapture.saveScreenshot(bi, fileName, "New Game Plus", false, false);
+                        } catch (Exception e) {
+                            log.debug("NG+: screenshot failed: {}", e.getMessage());
+                        }
+                    });
+                });
+            }, 600, TimeUnit.MILLISECONDS);
+        }
+    }
+
+    private String sanitizeFilename(String s) {
+        if (s == null) {
+            return "unlock";
+        }
+        s = Text.removeTags(s).trim();
+        return s.replaceAll("[\\\\/:*?\"<>|]", "_");
     }
 
     // Load default-locked name families (always enabled)

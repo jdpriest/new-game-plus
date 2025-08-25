@@ -56,4 +56,13 @@ public interface NewGamePlusConfig extends Config {
     default int unlockSoundVolume() {
         return 100;
     }
+
+    @ConfigItem(
+            keyName = "screenshotOnUnlock",
+            name = "Screenshot on unlock",
+            description = "Take a screenshot when a new item is unlocked (saved to the RuneLite screenshots folder)."
+    )
+    default boolean screenshotOnUnlock() {
+        return false;
+    }
 }
