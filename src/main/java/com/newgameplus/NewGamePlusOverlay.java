@@ -3,8 +3,7 @@ package com.newgameplus;
 import net.runelite.client.ui.overlay.WidgetItemOverlay;
 import net.runelite.api.widgets.WidgetItem;
 import net.runelite.api.widgets.Widget;
-import net.runelite.api.widgets.WidgetID;
-import net.runelite.api.widgets.WidgetInfo;
+import net.runelite.api.widgets.ComponentID;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -56,9 +55,10 @@ class NewGamePlusOverlay extends WidgetItemOverlay {
         int groupId = 0;
         Widget w = item.getWidget();
         if (w != null) {
-            groupId = WidgetInfo.TO_GROUP(w.getId());
+            // Extract interface group id from component id (top 16 bits)
+            groupId = w.getId() >>> 16;
         }
-        final boolean isBankItems = groupId == WidgetID.BANK_GROUP_ID; // bank main items container
+        final boolean isBankItems = groupId == (ComponentID.BANK_ITEM_CONTAINER >>> 16); // bank main items container
         final int alpha = isBankItems ? config.bankOpacity() : config.inventoryOpacity();
         final Color dimColor = ColorUtil.colorWithAlpha(Color.BLACK, alpha);
         final BufferedImage iconBi = ImageUtil.bufferedImageFromImage(icon);
