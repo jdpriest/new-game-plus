@@ -88,8 +88,13 @@ public class NewGamePlusUnlockOverlay extends Overlay {
 
         // Rendering setup
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        Font titleFont = FontManager.getRunescapeFont().deriveFont(Font.BOLD, 16f);
-        Font nameFont = FontManager.getRunescapeSmallFont().deriveFont(Font.PLAIN, 14f);
+        g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        g.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+        g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+
+        // Use RuneLite's standard fonts for crisp overlay text
+        Font titleFont = FontManager.getRunescapeBoldFont();
+        Font nameFont = FontManager.getRunescapeFont();
 
         // Strings
         String title = "NG+: New unlock";
