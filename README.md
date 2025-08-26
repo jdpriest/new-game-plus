@@ -28,7 +28,7 @@ allow you to re-do the PvM progression of the game, without having to train skil
 - The plugin determines whether an item is locked by ID and by name family.
     - "Name family" supports item variants, such as cosmetic kits (Oathplate helm -> Radiant oathplate helm) or imbues (
       Berserker ring -> Berserker ring (i))
-- Server NPC loot and chest/raid rewards also unlock items immediately.
+- NPC loot and chest/raid rewards also unlock items immediately.
 - The plugin does not delete or move items; it visually dims and blocks certain interactions while locked.
 
 ### Default lock lists
@@ -64,7 +64,7 @@ If the file exists and sound is enabled, it will play on unlock.
 ## Using the panel
 
 - Open the sidebar panel “New Game Plus”.
-- **Add**: Opens an in-game chatbox item search restricted to lockable families; pick an item to add to unlocks.
+- **Add**: Opens an in-game chatbox item search; pick an item to add to unlocks.
 - **Remove Selected**: Remove highlighted entries from unlocks.
 - **Delete All Unlocks**: Clear all unlocks (confirmation required).
 

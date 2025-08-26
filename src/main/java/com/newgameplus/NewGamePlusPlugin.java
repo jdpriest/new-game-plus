@@ -402,10 +402,8 @@ public class NewGamePlusPlugin extends Plugin {
 
         final String option = entry.getOption();
         final int itemId = entry.getItemId();
-        // If we colored the option gray or the option is not allowed for a locked item, consume
-        boolean colored = option != null && isColored(option);
-        if (colored || (itemId > 0 && !allowOption(itemId, option))) {
-            // Keep visible but block interaction
+        // Only consume item interactions that are not allowed for locked items.
+        if (itemId > 0 && !allowOption(itemId, option)) {
             event.consume();
         }
     }
