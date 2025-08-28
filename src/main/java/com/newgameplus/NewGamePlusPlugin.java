@@ -24,12 +24,14 @@ import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.ui.overlay.OverlayManager;
 import net.runelite.client.ui.ClientToolbar;
+import net.runelite.client.ui.ClientUI;
 import net.runelite.client.ui.NavigationButton;
 import net.runelite.client.util.ImageUtil;
 import net.runelite.client.game.ItemManager;
 import net.runelite.client.util.ColorUtil;
 import net.runelite.client.util.Text;
 import net.runelite.client.events.ConfigChanged;
+import net.runelite.api.events.ScriptCallbackEvent;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -91,6 +93,9 @@ public class NewGamePlusPlugin extends Plugin {
 
     @Inject
     private ClientToolbar clientToolbar;
+
+    @Inject
+    private ClientUI clientUI;
 
     @Inject
     private ItemManager itemManager;
@@ -394,6 +399,54 @@ public class NewGamePlusPlugin extends Plugin {
     }
 
     @Subscribe
+    public void onScriptCallbackEvent(ScriptCallbackEvent event)
+    {
+        // Integrate with bank search filtering. When the user searches exactly "unlocked" (or "locked"),
+        // filter bank items by our lock state.
+        if (!"bankSearchFilter".equals(event.getEventName()))
+        {
+            return;
+        }
+
+        // Stack layout mirrors BankPlugin's usage: top of int stack has itemId,
+        // and writing 1 to intStack[intStackSize - 2] signals a match.
+        int[] intStack = client.getIntStack();
+        Object[] objectStack = client.getObjectStack();
+        int intStackSize = client.getIntStackSize();
+        int objectStackSize = client.getObjectStackSize();
+
+        if (intStackSize < 2 || objectStackSize < 1)
+        {
+            return;
+        }
+
+        final int itemId = intStack[intStackSize - 1];
+        final Object searchObj = objectStack[objectStackSize - 1];
+        if (!(searchObj instanceof String))
+        {
+            return;
+        }
+        final String searchRaw = (String) searchObj;
+        final String search = Text.removeTags(searchRaw).toLowerCase().trim();
+
+        if (search.equals("is:unlocked"))
+        {
+            // Only include items that were default-locked by the plugin and are now unlocked
+            if (wasDefaultLocked(itemId) && !isLocked(itemId))
+            {
+                intStack[intStackSize - 2] = 1; // match
+            }
+        }
+        else if (search.equals("is:locked"))
+        {
+            if (isLocked(itemId))
+            {
+                intStack[intStackSize - 2] = 1; // match
+            }
+        }
+    }
+
+    @Subscribe
     public void onMenuOptionClicked(MenuOptionClicked event) {
         MenuEntry entry = event.getMenuEntry();
         if (entry == null) {
@@ -572,6 +625,33 @@ public class NewGamePlusPlugin extends Plugin {
         }
 
         // Otherwise unlocked by default
+        return false;
+    }
+
+    // Determine if an item would be considered default-locked based on name families
+    private boolean wasDefaultLocked(int itemId)
+    {
+        if (itemId <= 0)
+        {
+            return false;
+        }
+        String normName;
+        try
+        {
+            String name = itemManager.getItemComposition(itemId).getName();
+            normName = normalizeName(name);
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
+        for (Pattern p : defaultLockedPatterns)
+        {
+            if (p.matcher(normName).matches())
+            {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -877,6 +957,11 @@ public class NewGamePlusPlugin extends Plugin {
     public void openAddItemSearch() {
         clientThread.invoke(() ->
         {
+            // Ensure the RuneLite client (and chatbox input) has keyboard focus after clicking the sidebar button
+            if (clientUI != null) {
+                clientUI.requestFocus();
+            }
+
             chatboxItemSearch
                     .tooltipText("Click a lockable item to add to unlocks")
                     .onItemSelected(id ->
