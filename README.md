@@ -16,8 +16,9 @@ allow you to re-do the PvM progression of the game, without having to train skil
 - **Automatic unlocks** on:
     - NPC drops.
     - Chest/raid rewards.
-    - Item entering inventory (e.g., ground pickups, crafting/skilling, shops, etc.).
+    - Item entering inventory (e.g., ground pickups, crafting/skilling, etc.).
 - Each unlock shows a chat message.
+- **Bank search**: Search "is:unlocked" in the bank to see all unlocked items
 - **Unlock popup overlay**: Shows the item icon and name (toggleable).
 - **Unlock sound**: Plays a custom sound file with configurable volume (toggleable).
 - **Unlocks panel**: A sidebar panel to add/remove unlocks and view everything you’ve unlocked so far.
@@ -25,10 +26,14 @@ allow you to re-do the PvM progression of the game, without having to train skil
 
 ## How it works
 
-- The plugin determines whether an item is locked by ID and by name family.
-    - "Name family" supports item variants, such as cosmetic kits (Oathplate helm -> Radiant oathplate helm) or imbues (
-      Berserker ring -> Berserker ring (i))
-- NPC loot and chest/raid rewards also unlock items immediately.
+- The plugin automatically locks all items in the bosses, raids, and slayer collection log, as well as associated
+  equipabble items that are created from those items.
+- At the moment, the list of "locked" items is manually defined, and supports "name families".
+    - "Name family" supports item variants, such as cosmetic kits [Oathplate helm -> Radiant oathplate helm] or
+      imbues [Berserker ring -> Berserker ring (i)]
+- Locked items have normal interaction options disabled.
+- Upon recieving the item as a drop, it will unlock the item and add it to the list of unlocks, removing all
+  restrictions.
 - The plugin does not delete or move items; it visually dims and blocks certain interactions while locked.
 
 ### Default lock lists
@@ -81,3 +86,6 @@ you get from fight caves would unlock locked fire cape, broken fire capes, and t
 
 With a complete list of all item IDs possibly received as a drop and associated item variants that they should unlock, I
 could then fine tune the search option to only contain the base variants of items that are locked.
+
+Currently, since the list of locked items is manually curated, I may have missed some items/item variants. If there is
+something that you believe should be locked, please open an issue on GitHub and I will add it to the list.

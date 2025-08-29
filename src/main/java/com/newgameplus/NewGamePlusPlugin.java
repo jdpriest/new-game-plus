@@ -178,7 +178,9 @@ public class NewGamePlusPlugin extends Plugin {
         try {
             java.net.URL res = NewGamePlusPlugin.class.getResource("/newgameplus-icon.png");
             if (res != null) {
-                icon = javax.imageio.ImageIO.read(res);
+                synchronized (javax.imageio.ImageIO.class) {
+                    icon = javax.imageio.ImageIO.read(res);
+                }
                 if (icon != null && (icon.getWidth() != 16 || icon.getHeight() != 16)) {
                     icon = ImageUtil.resizeImage(icon, 16, 16);
                 }
@@ -774,7 +776,7 @@ public class NewGamePlusPlugin extends Plugin {
                         }
                     });
                 });
-            }, 600, TimeUnit.MILLISECONDS);
+            }, 1800, TimeUnit.MILLISECONDS);
         }
     }
 

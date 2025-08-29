@@ -29,7 +29,7 @@ public class NewGamePlusUnlockOverlay extends Overlay {
     private static final int ARC = 8;
     // Timing: fade-in, hold full opacity ~5s, fade-out
     private static final long FADE_IN_MS = 400;
-    private static final long FULL_MS = Duration.ofSeconds(5).toMillis();
+    private static final long FULL_MS = Duration.ofSeconds(4).toMillis();
     private static final long FADE_OUT_MS = 400;
     private static final long TOTAL_MS = FADE_IN_MS + FULL_MS + FADE_OUT_MS;
 

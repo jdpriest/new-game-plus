@@ -69,6 +69,7 @@ Saradomin's light
 Godsword shard 1
 Godsword shard 2
 Godsword shard 3
+Godsword blade
 Elysian sigil
 Elysian spirit shield
 Spectral sigil
