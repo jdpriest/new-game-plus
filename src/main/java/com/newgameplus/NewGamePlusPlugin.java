@@ -135,7 +135,6 @@ public class NewGamePlusPlugin extends Plugin {
 
     @Override
     protected void startUp() throws Exception {
-        log.info("New Game Plus started!");
         // Load persisted unlocks
         loadUnlockedFromConfig();
         rebuildUnlockedNames();
@@ -176,13 +175,14 @@ public class NewGamePlusPlugin extends Plugin {
         panel = new NewGamePlusPanel(this, itemManager, client);
         BufferedImage icon = null;
         try {
-            java.net.URL res = NewGamePlusPlugin.class.getResource("/newgameplus-icon.png");
-            if (res != null) {
-                synchronized (javax.imageio.ImageIO.class) {
-                    icon = javax.imageio.ImageIO.read(res);
-                }
-                if (icon != null && (icon.getWidth() != 16 || icon.getHeight() != 16)) {
-                    icon = ImageUtil.resizeImage(icon, 16, 16);
+            try (InputStream is = NewGamePlusPlugin.class.getResourceAsStream("/newgameplus-icon.png")) {
+                if (is != null) {
+                    synchronized (javax.imageio.ImageIO.class) {
+                        icon = javax.imageio.ImageIO.read(is);
+                    }
+                    if (icon != null && (icon.getWidth() != 16 || icon.getHeight() != 16)) {
+                        icon = ImageUtil.resizeImage(icon, 16, 16);
+                    }
                 }
             }
         } catch (Exception e) {
@@ -206,7 +206,6 @@ public class NewGamePlusPlugin extends Plugin {
 
     @Override
     protected void shutDown() throws Exception {
-        log.info("New Game Plus stopped!");
         unlockedItemIds.clear();
         inventoryCounts.clear();
         inventorySnapshotInitialized = false;
