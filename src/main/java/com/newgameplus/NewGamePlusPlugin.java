@@ -175,15 +175,9 @@ public class NewGamePlusPlugin extends Plugin {
         panel = new NewGamePlusPanel(this, itemManager, client);
         BufferedImage icon = null;
         try {
-            try (InputStream is = NewGamePlusPlugin.class.getResourceAsStream("/newgameplus-icon.png")) {
-                if (is != null) {
-                    synchronized (javax.imageio.ImageIO.class) {
-                        icon = javax.imageio.ImageIO.read(is);
-                    }
-                    if (icon != null && (icon.getWidth() != 16 || icon.getHeight() != 16)) {
-                        icon = ImageUtil.resizeImage(icon, 16, 16);
-                    }
-                }
+            icon = ImageUtil.loadImageResource(NewGamePlusPlugin.class, "/newgameplus-icon.png");
+            if (icon != null && (icon.getWidth() != 16 || icon.getHeight() != 16)) {
+                icon = ImageUtil.resizeImage(icon, 16, 16);
             }
         } catch (Exception e) {
             // ignore and fallback below
@@ -775,7 +769,7 @@ public class NewGamePlusPlugin extends Plugin {
                         }
                     });
                 });
-            }, 1800, TimeUnit.MILLISECONDS);
+            }, 1300, TimeUnit.MILLISECONDS);
         }
     }
 
